@@ -19,26 +19,26 @@ import {
 } from "recharts";
 
 function Dashboard() {
-  // ✅ KPI States
+  // ✅ KPI States (focus on Computer Engineering)
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [totalStudents, setTotalStudents] = useState(1248);
   const [passPercentage, setPassPercentage] = useState(87);
   const [riskStudents, setRiskStudents] = useState(142);
   const [facultyScore, setFacultyScore] = useState(8.4);
 
-  // ✅ Chart States (THIS WAS MISSING)
+  // ✅ Chart States (focus on Computer Engineering)
   const [performanceData, setPerformanceData] = useState([
-    { grade: "A", students: 220 },
-    { grade: "B", students: 410 },
-    { grade: "C", students: 350 },
-    { grade: "D", students: 180 },
-    { grade: "F", students: 88 },
+    { grade: "A", students: 120 },
+    { grade: "B", students: 210 },
+    { grade: "C", students: 180 },
+    { grade: "D", students: 90 },
+    { grade: "F", students: 48 },
   ]);
 
   const [riskData, setRiskData] = useState([
-    { name: "Low Risk", value: 890 },
-    { name: "Moderate Risk", value: 220 },
-    { name: "High Risk", value: 138 },
+    { name: "Low Risk", value: 560 },
+    { name: "Moderate Risk", value: 140 },
+    { name: "High Risk", value: 90 },
   ]);
 
   // ✅ Run Analysis Function
@@ -46,26 +46,26 @@ function Dashboard() {
     setIsAnalyzing(true);
 
     setTimeout(() => {
-      // Update KPIs
+      // Update KPIs with Computer Engineering emphasis
       setTotalStudents(1265);
-      setPassPercentage(90);
-      setRiskStudents(120);
-      setFacultyScore(8.9);
+      setPassPercentage(92); // CE dept improved
+      setRiskStudents(85); // CE dept at lower risk
+      setFacultyScore(9.2); // CE faculty score higher
 
       // Update Bar Chart
       setPerformanceData([
-        { grade: "A", students: 260 },
-        { grade: "B", students: 430 },
-        { grade: "C", students: 300 },
-        { grade: "D", students: 150 },
-        { grade: "F", students: 60 },
+        { grade: "A", students: 150 },
+        { grade: "B", students: 230 },
+        { grade: "C", students: 130 },
+        { grade: "D", students: 70 },
+        { grade: "F", students: 35 },
       ]);
 
       // Update Pie Chart
       setRiskData([
-        { name: "Low Risk", value: 920 },
-        { name: "Moderate Risk", value: 210 },
-        { name: "High Risk", value: 135 },
+        { name: "Low Risk", value: 600 },
+        { name: "Moderate Risk", value: 120 },
+        { name: "High Risk", value: 70 },
       ]);
 
       setIsAnalyzing(false);
@@ -85,6 +85,7 @@ function Dashboard() {
     riskLevel = "Moderate";
     riskColor = "bg-yellow-100 text-yellow-700";
   }
+
   return (
     <div className="min-h-screen bg-gray-100">
       <Navbar />
@@ -97,21 +98,23 @@ function Dashboard() {
           {/* KPI Section */}
           <div className="grid md:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-6 mb-10">
             <div className="bg-white p-6 rounded-2xl shadow-md border">
-              <h3 className="text-sm text-gray-500">Total Students</h3>
+              <h3 className="text-sm text-gray-500">
+                Total Students (CE Focus)
+              </h3>
               <p className="text-2xl font-bold text-blue-700 mt-2">
                 {totalStudents}
               </p>
             </div>
 
             <div className="bg-white p-6 rounded-2xl shadow-md border">
-              <h3 className="text-sm text-gray-500">Pass Percentage</h3>
+              <h3 className="text-sm text-gray-500">Pass Percentage (CE)</h3>
               <p className="text-2xl font-bold text-green-600 mt-2">
                 {passPercentage}%
               </p>
             </div>
 
             <div className="bg-white p-6 rounded-2xl shadow-md border">
-              <h3 className="text-sm text-gray-500">At-Risk Students</h3>
+              <h3 className="text-sm text-gray-500">At-Risk Students (CE)</h3>
               <p className="text-2xl font-bold text-red-600 mt-2">
                 {riskStudents}
               </p>
@@ -119,13 +122,14 @@ function Dashboard() {
 
             <div className="bg-white p-6 rounded-2xl shadow-md border">
               <h3 className="text-sm text-gray-500">
-                Faculty Performance Score
+                Faculty Performance Score (CE)
               </h3>
               <p className="text-2xl font-bold text-purple-600 mt-2">
                 {facultyScore} / 10
               </p>
             </div>
           </div>
+
           {/* Run AI Button */}
           <div className="mb-6 flex justify-end">
             <button
@@ -136,51 +140,49 @@ function Dashboard() {
               {isAnalyzing ? "Analyzing..." : "Run AI Analysis"}
             </button>
           </div>
-          {/* AI Insight Section */}{" "}
+
+          {/* AI Insight Section */}
           <div className="bg-white p-6 rounded-2xl shadow-md border mb-10">
-            {" "}
             <h2 className="text-lg font-semibold mb-3 text-blue-900">
-              {" "}
-              🤖 AI Generated Academic Insight{" "}
-            </h2>{" "}
+              🤖 AI Generated Academic Insight (Computer Engineering)
+            </h2>
             <p className="text-gray-700 leading-relaxed">
-              {" "}
               The AI model analyzed attendance records, internal marks, and
-              assignment performance across departments. Approximately{" "}
+              assignment performance in the{" "}
+              <span className="font-semibold text-blue-700">
+                Computer Engineering department
+              </span>
+              . Approximately{" "}
               <span className="font-semibold text-red-600">
-                {" "}
-                {riskPercentage}% of students{" "}
+                {riskPercentage}% of students
               </span>{" "}
-              are classified as academically at-risk due to consistently low
-              attendance and below-average internal assessment scores.{" "}
-            </p>{" "}
+              are classified as academically at-risk due to low attendance and
+              below-average scores.
+            </p>
             <p className="text-gray-700 mt-3 leading-relaxed">
-              {" "}
               Faculty performance indicators show a{" "}
               <span className="font-semibold text-green-600">
-                {" "}
-                2% improvement{" "}
+                5% improvement
               </span>{" "}
-              compared to the previous semester.{" "}
-            </p>{" "}
+              compared to the previous semester in Computer Engineering.
+            </p>
             <div className="mt-5 flex items-center gap-3">
-              {" "}
               <span
                 className={`${riskColor} px-3 py-1 rounded-full text-sm font-medium`}
               >
                 Risk Level: {riskLevel}
-              </span>{" "}
+              </span>
               <span className="text-sm text-gray-500">
-                {" "}
-                Recommendation: Increase mentoring sessions for identified
-                students.{" "}
-              </span>{" "}
-            </div>{" "}
+                Recommendation: Increase mentoring sessions and workshops for
+                Computer Engineering students.
+              </span>
+            </div>
           </div>
+
           {/* Bar Chart */}
           <div className="bg-white p-6 rounded-2xl shadow-md border mb-10">
             <h2 className="text-lg font-semibold mb-5 text-blue-900">
-              📊 Student Performance Distribution
+              📊 CE Student Performance Distribution
             </h2>
 
             <ResponsiveContainer width="100%" height={300}>
@@ -193,10 +195,11 @@ function Dashboard() {
               </BarChart>
             </ResponsiveContainer>
           </div>
+
           {/* Pie Chart */}
           <div className="bg-white p-6 rounded-2xl shadow-md border mb-10">
             <h2 className="text-lg font-semibold mb-5 text-blue-900">
-              🎯 Academic Risk Distribution
+              🎯 CE Academic Risk Distribution
             </h2>
 
             <ResponsiveContainer width="100%" height={300}>
@@ -218,14 +221,15 @@ function Dashboard() {
               </PieChart>
             </ResponsiveContainer>
           </div>
+
           {/* Navigation Cards */}
           <div className="grid md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-8">
             <Link to="/student">
-              <Card title="Student Analysis" />
+              <Card title="Student Analysis (CE)" />
             </Link>
 
             <Link to="/faculty">
-              <Card title="Faculty Analysis" />
+              <Card title="Faculty Analysis (CE)" />
             </Link>
 
             <Link to="/institution">

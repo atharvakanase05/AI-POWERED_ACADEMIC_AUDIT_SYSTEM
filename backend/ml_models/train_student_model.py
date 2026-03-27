@@ -1,50 +1,57 @@
 import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import accuracy_score
 import joblib
 
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.preprocessing import LabelEncoder
+from sklearn.metrics import accuracy_score, classification_report
+
 # Load dataset
-df = pd.read_csv("datasets/student_dataset.csv")
+df = pd.read_csv("../datasets/academic_audit_dataset.csv")
 
-# Features (input)
-X = df[
-    [
-        "attendance",
-        "internal_marks",
-        "assignment_score",
-        "mid_sem_score",
-        "previous_gpa",
-        "participation_score",
-        "backlogs",
-    ]
-]
+print("Dataset Shape:", df.shape)
 
-# Target (output)
-y = df["final_result"]
+# Check class distribution
+print("\nRisk Level Distribution:")
+print(df["RiskLevel"].value_counts())
 
-# Split dataset
+# Features and Target
+X = df.drop(["StudentID", "RiskLevel"], axis=1)
+y = df["RiskLevel"]
+
+# Encode labels
+le = LabelEncoder()
+y = le.fit_transform(y)
+
+# Train test split
 X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.2, random_state=42
+    X, y,
+    test_size=0.2,
+    random_state=42,
+    stratify=y
 )
 
 # Train model
 model = RandomForestClassifier(
-    n_estimators=200,
-    max_depth=10,
+    n_estimators=300,
+    max_depth=15,
     random_state=42
 )
 
 model.fit(X_train, y_train)
 
-# Test accuracy
-predictions = model.predict(X_test)
+# Predictions
+pred = model.predict(X_test)
 
-accuracy = accuracy_score(y_test, predictions)
+# Accuracy
+accuracy = accuracy_score(y_test, pred)
+print("\nModel Accuracy:", accuracy)
 
-print("Model Accuracy:", accuracy)
+print("\nClassification Report:")
+print(classification_report(y_test, pred))
 
 # Save model
-joblib.dump(model, "student_model.pkl")
+joblib.dump(model, "student_risk_model.pkl")
+joblib.dump(le, "label_encoder.pkl")
 
-print("Model saved successfully")
+print("\nModel Saved Successfully")

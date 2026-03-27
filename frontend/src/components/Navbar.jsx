@@ -1,8 +1,19 @@
+import { useNavigate } from "react-router-dom";
+
 function Navbar() {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    // Optional: clear any user/session data here
+    // localStorage.clear() or context reset if needed
+
+    navigate("/"); // redirect to login page
+  };
+
   return (
     <div className="bg-blue-900 text-white h-16 flex items-center justify-between px-8 shadow-md">
       <div className="text-lg font-semibold">
-        AI-Powered Academic Audit System
+        AI-Powered Academic Audit System - Computer Engineering Department
       </div>
 
       <div className="flex items-center gap-6">
@@ -14,7 +25,10 @@ function Navbar() {
           🔔 <span>3 Alerts</span>
         </div>
 
-        <button className="bg-blue-700 px-4 py-1 rounded hover:bg-blue-600 transition">
+        <button
+          onClick={handleLogout}
+          className="bg-blue-700 px-4 py-1 rounded hover:bg-blue-600 transition"
+        >
           Logout
         </button>
       </div>

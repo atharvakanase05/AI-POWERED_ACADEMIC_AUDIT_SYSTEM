@@ -15,19 +15,23 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Load ML model
-model = joblib.load("student_model.pkl")
+# Load trained model and encoder
+model = joblib.load("ml_models/student_risk_model.pkl")
+label_encoder = joblib.load("ml_models/label_encoder.pkl")
 
 
 # Request body schema
 class StudentData(BaseModel):
+    semester: int
     attendance: int
     internal_marks: int
     assignment_score: int
     study_hours: int
     backlogs: int
     participation: int
-    semester: int
+    midterm_marks: int
+    final_exam_marks: int
+    gpa: float
 
 
 @app.get("/")
@@ -36,28 +40,44 @@ def home():
 
 
 @app.post("/analyze")
-def analyze(data: StudentData):
+def analyze(student: StudentData):
 
-    input_data = [[
-        data.attendance,
-        data.internal_marks,
-        data.assignment_score,
-        data.study_hours,
-        data.backlogs,
-        data.participation,
-        data.semester
+    # Convert input into list
+    features = [[
+        student.semester,
+        student.attendance,
+        student.internal_marks,
+        student.assignment_score,
+        student.study_hours,
+        student.backlogs,
+        student.participation,
+        student.midterm_marks,
+        student.final_exam_marks,
+        student.gpa
     ]]
 
-    prediction = model.predict(input_data)[0]
-    probability = model.predict_proba(input_data)[0]
+    # AI Prediction
+    prediction = model.predict(features)[0]
 
-    risk_level = "High" if prediction == 1 else "Low"
-    result = "Fail" if prediction == 1 else "Pass"
+    # Probability
+    confidence = model.predict_proba(features)[0].max()
 
-    confidence = max(probability)
+    # Convert prediction to text
+    if prediction == 1:
+        result = "Pass"
+    else:
+        result = "Fail"
+
+    # Risk Level Logic
+    if student.gpa < 5 or student.backlogs >= 3:
+        risk = "High Risk"
+    elif student.gpa < 7 or student.attendance < 60:
+        risk = "Moderate Risk"
+    else:
+        risk = "Low Risk"
 
     return {
         "prediction": result,
-        "risk_level": risk_level,
-        "confidence": confidence
+        "risk_level": risk,
+        "confidence": float(confidence)
     }

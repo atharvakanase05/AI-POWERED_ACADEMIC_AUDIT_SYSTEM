@@ -3,11 +3,16 @@ import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import "./index.css";
 import App from "./App.jsx";
+import { AuditProvider } from "./AuditContext"; // ✅ ADD THIS
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <AuditProvider>
+      {" "}
+      {/* ✅ ADD THIS */}
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </AuditProvider>
   </StrictMode>,
 );

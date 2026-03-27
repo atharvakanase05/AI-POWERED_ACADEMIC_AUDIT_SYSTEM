@@ -4,6 +4,7 @@ import Dashboard from "./pages/Dashboard";
 import StudentAnalysis from "./pages/StudentAnalysis";
 import FacultyAnalysis from "./pages/FacultyAnalysis";
 import Institutional from "./pages/Institutional";
+import AuditReport from "./pages/AuditReport";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       <Route path="/student" element={<StudentAnalysis />} />
       <Route path="/faculty" element={<FacultyAnalysis />} />
       <Route path="/institution" element={<Institutional />} />
+      <Route path="/report" element={<AuditReport />} />
     </Routes>
   );
 }
