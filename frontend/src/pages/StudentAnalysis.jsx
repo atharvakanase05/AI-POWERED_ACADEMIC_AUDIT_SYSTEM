@@ -1,313 +1,548 @@
-import { useNavigate } from "react-router-dom";
-import { useContext } from "react";
-import { AuditContext } from "../AuditContext";
-import React, { useState } from "react";
+
+// import { useState } from "react";
+// import { Bar, Pie } from "react-chartjs-2";
+// import {
+//   Chart as ChartJS,
+//   CategoryScale,
+//   LinearScale,
+//   BarElement,
+//   ArcElement,
+//   Tooltip,
+//   Legend,
+// } from "chart.js";
+
+// ChartJS.register(
+//   CategoryScale,
+//   LinearScale,
+//   BarElement,
+//   ArcElement,
+//   Tooltip,
+//   Legend
+// );
+
+// export default function StudentAnalysis() {
+//   const [rollNo, setRollNo] = useState("");
+//   const [student, setStudent] = useState(null);
+//   const [placement, setPlacement] = useState(null);
+//   const [result, setResult] = useState(null);
+//   const [loading, setLoading] = useState(false);
+//   const [error, setError] = useState("");
+
+//   const API = "http://localhost:8000"; // ✅ FIXED
+
+//   // ================= FETCH =================
+//   const fetchStudent = async () => {
+//     try {
+//       setLoading(true);
+//       setError("");
+
+//       console.log("Fetching student...");
+
+//       const res = await fetch(`${API}/student/${rollNo}`);
+
+//       if (!res.ok) {
+//         throw new Error("Student API failed");
+//       }
+
+//       const data = await res.json();
+//       console.log("Student:", data);
+
+//       setStudent(data);
+
+//       const p = await fetch(`${API}/placement/${rollNo}`);
+//       const pdata = await p.json();
+
+//       console.log("Placement:", pdata);
+
+//       setPlacement(pdata);
+//       setResult(null);
+
+//     } catch (err) {
+//       console.error(err);
+//       setError("Failed to fetch student data");
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   // ================= AI =================
+//   const runAI = async () => {
+//     try {
+//       setLoading(true);
+//       setError("");
+
+//       const res = await fetch(`${API}/analyze`, {
+//         method: "POST",
+//         headers: { "Content-Type": "application/json" },
+//         body: JSON.stringify({ roll_no: rollNo }),
+//       });
+
+//       if (!res.ok) {
+//         throw new Error("AI API failed");
+//       }
+
+//       const data = await res.json();
+//       console.log("AI:", data);
+
+//       setResult(data);
+
+//     } catch (err) {
+//       console.error(err);
+//       setError("AI failed");
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   return (
+//     <div className="p-6 bg-gray-100 min-h-screen">
+
+//       <h1 className="text-3xl font-bold text-center mb-6">
+//         AI Academic Dashboard
+//       </h1>
+
+//       {/* INPUT */}
+//       <div className="flex justify-center gap-3 mb-6">
+//         <input
+//           value={rollNo}
+//           onChange={(e) => setRollNo(e.target.value)}
+//           className="border p-2 rounded"
+//           placeholder="Enter Roll No (CS001)"
+//         />
+
+//         <button onClick={fetchStudent} className="bg-blue-500 text-white p-2 rounded">
+//           Fetch
+//         </button>
+
+//         <button onClick={runAI} className="bg-green-500 text-white p-2 rounded">
+//           Run AI
+//         </button>
+
+//         <button
+//           onClick={() => window.open(`${API}/students/report/all`)}
+//           className="bg-purple-500 text-white p-2 rounded"
+//         >
+//           Students PDF
+//         </button>
+
+//         <button
+//           onClick={() => window.open(`${API}/placement/report/2025`)}
+//           className="bg-red-500 text-white p-2 rounded"
+//         >
+//           Placement PDF
+//         </button>
+//       </div>
+
+//       {/* LOADING */}
+//       {loading && <p className="text-center text-blue-600">Loading...</p>}
+
+//       {/* ERROR */}
+//       {error && <p className="text-center text-red-600">{error}</p>}
+
+//       {/* CARDS */}
+//       <div className="grid grid-cols-3 gap-4">
+
+//         {student && (
+//           <div className="bg-white p-4 shadow rounded">
+//             <h2 className="font-bold">Student</h2>
+//             <p>Name: {student.name}</p>
+//             <p>Marks: {student.marks}</p>
+//             <p>GPA: {student.gpa}</p>
+//           </div>
+//         )}
+
+//         {placement && (
+//           <div className="bg-white p-4 shadow rounded">
+//             <h2 className="font-bold">Placement</h2>
+//             <p>Status: {placement.status || "N/A"}</p>
+//             <p>Company: {placement.company_name || "-"}</p>
+//           </div>
+//         )}
+
+//         {result && (
+//           <div className="bg-white p-4 shadow rounded">
+//             <h2 className="font-bold">AI Result</h2>
+//             <p>Risk: {result.risk_level}</p>
+//             <p>Confidence: {result.confidence}%</p>
+//           </div>
+//         )}
+
+//       </div>
+
+//       {/* CHARTS */}
+//       {student && result && (
+//         <div className="grid grid-cols-2 gap-6 mt-6">
+
+//           <Bar
+//             data={{
+//               labels: ["Attendance", "Marks", "GPA"],
+//               datasets: [{
+//                 label: "Performance",
+//                 data: [
+//                   student.attendance,
+//                   student.marks,
+//                   student.gpa * 10
+//                 ]
+//               }]
+//             }}
+//           />
+
+//           <Pie
+//             data={{
+//               labels: ["Confidence", "Risk"],
+//               datasets: [{
+//                 data: [
+//                   result.confidence,
+//                   100 - result.confidence
+//                 ]
+//               }]
+//             }}
+//           />
+
+//         </div>
+//       )}
+
+//     </div>
+//   );
+// }
+///woring -
+
+// import { useState } from "react";
+// import { Bar, Pie } from "react-chartjs-2";
+// import {
+//   Chart as ChartJS,
+//   CategoryScale,
+//   LinearScale,
+//   BarElement,
+//   ArcElement,
+//   Tooltip,
+//   Legend,
+// } from "chart.js";
+
+// ChartJS.register(
+//   CategoryScale,
+//   LinearScale,
+//   BarElement,
+//   ArcElement,
+//   Tooltip,
+//   Legend
+// );
+
+// export default function StudentAnalysis() {
+//   const [rollNo, setRollNo] = useState("");
+//   const [student, setStudent] = useState(null);
+//   const [result, setResult] = useState(null);
+//   const [placement, setPlacement] = useState(null);
+//   const [error, setError] = useState("");
+
+//   const API = "http://127.0.0.1:8000";
+
+//   const fetchStudent = async () => {
+//     try {
+//       setError("");
+
+//       const res = await fetch(`${API}/student/${rollNo}`);
+//       if (!res.ok) throw new Error("Student not found");
+
+//       const data = await res.json();
+//       setStudent(data);
+
+//       const p = await fetch(`${API}/placement/${rollNo}`);
+//       setPlacement(await p.json());
+
+//     } catch (err) {
+//       setError(err.message);
+//       setStudent(null);
+//     }
+//   };
+
+//   const runAI = async () => {
+//     try {
+//       setError("");
+
+//       const res = await fetch(`${API}/analyze`, {
+//         method: "POST",
+//         headers: { "Content-Type": "application/json" },
+//         body: JSON.stringify({ roll_no: rollNo }),
+//       });
+
+//       const data = await res.json();
+//       setResult(data);
+
+//     } catch (err) {
+//       setError("AI failed");
+//     }
+//   };
+
+//   return (
+//     <div className="p-6 bg-gray-100 min-h-screen">
+
+//       <h1 className="text-3xl font-bold text-center mb-6">
+//         AI Academic Dashboard
+//       </h1>
+
+//       <div className="flex justify-center gap-3 mb-6">
+//         <input
+//           value={rollNo}
+//           onChange={(e) => setRollNo(e.target.value)}
+//           className="border p-2 rounded"
+//           placeholder="Enter Roll No"
+//         />
+
+//         <button onClick={fetchStudent} className="bg-blue-500 text-white p-2 rounded">
+//           Fetch
+//         </button>
+
+//         <button onClick={runAI} className="bg-green-500 text-white p-2 rounded">
+//           Run AI
+//         </button>
+
+//         <button onClick={() => window.open(`${API}/students/report/all`)}
+//           className="bg-purple-500 text-white p-2 rounded">
+//           Students PDF
+//         </button>
+
+//         <button onClick={() => window.open(`${API}/placement/report/2025`)}
+//           className="bg-red-500 text-white p-2 rounded">
+//           Placement PDF
+//         </button>
+//       </div>
+
+//       {error && <p className="text-red-500 text-center">{error}</p>}
+
+//       <div className="grid grid-cols-3 gap-4">
+
+//         {student && (
+//           <div className="bg-white p-4 shadow rounded">
+//             <h2 className="font-bold">Student</h2>
+//             <p>{student.name}</p>
+//             <p>Marks: {student.marks}</p>
+//             <p>GPA: {student.gpa}</p>
+//           </div>
+//         )}
+
+//         {placement && (
+//           <div className="bg-white p-4 shadow rounded">
+//             <h2 className="font-bold">Placement</h2>
+//             <p>{placement.status}</p>
+//             <p>{placement.company_name}</p>
+//           </div>
+//         )}
+
+//         {result && (
+//           <div className="bg-white p-4 shadow rounded">
+//             <h2 className="font-bold">AI Result</h2>
+//             <p>{result.risk_level}</p>
+//             <p>{result.confidence}%</p>
+//           </div>
+//         )}
+
+//       </div>
+
+//       {student && result && (
+//         <div className="grid grid-cols-2 gap-6 mt-6">
+
+//           <Bar
+//             data={{
+//               labels: ["Attendance", "Marks", "GPA"],
+//               datasets: [{
+//                 label: "Performance",
+//                 data: [
+//                   student.attendance,
+//                   student.marks,
+//                   student.gpa * 10
+//                 ],
+//               }],
+//             }}
+//           />
+
+// //           <Pie
+//             data={{
+//               labels: ["Confidence", "Risk"],
+//               datasets: [{
+//                 data: [result.confidence, 100 - result.confidence],
+//               }],
+//             }}
+//           />
+
+//         </div>
+//       )}
+
+//     </div>
+//   );
+// }
+
+
+import { useState } from "react";
+import { Bar, Pie } from "react-chartjs-2";
 import {
-  BarChart,
-  Bar,
-  LineChart,
-  Line,
-  PieChart,
-  Pie,
-  Cell,
-  XAxis,
-  YAxis,
-  CartesianGrid,
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  ArcElement,
   Tooltip,
-  ResponsiveContainer,
-} from "recharts";
+  Legend,
+} from "chart.js";
 
-const StudentAnalysis = () => {
-  const navigate = useNavigate();
-  const [data, setData] = useState({});
-  const [result, setResult] = useState(null); // ✅ ADD THIS
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  ArcElement,
+  Tooltip,
+  Legend
+);
 
-  const { setStudentData } = useContext(AuditContext);
-  const department = "Computer Engineering";
-  const [attendance, setAttendance] = useState("");
-  const [internalMarks, setInternalMarks] = useState("");
-  const [assignmentScore, setAssignmentScore] = useState("");
-  const [studyHours, setStudyHours] = useState("");
-  const [backlogs, setBacklogs] = useState("");
-  const [participation, setParticipation] = useState("");
-  const [semester, setSemester] = useState("");
-  const [midtermMarks, setMidtermMarks] = useState("");
-  const [finalExamMarks, setFinalExamMarks] = useState("");
-  const [gpa, setGpa] = useState("");
-
-  const [riskLevel, setRiskLevel] = useState("");
-  const [confidence, setConfidence] = useState("");
+export default function StudentAnalysis() {
+  const [rollNo, setRollNo] = useState("");
+  const [student, setStudent] = useState(null);
+  const [result, setResult] = useState(null);
+  const [placement, setPlacement] = useState(null);
   const [error, setError] = useState("");
-  const [chartData, setChartData] = useState(null);
 
-  const runAnalysis = async () => {
-    setError("");
+  const API = "http://127.0.0.1:8000";
 
-    const payload = {
-      department,
-      semester: Number(semester),
-      attendance: Number(attendance),
-      internal_marks: Number(internalMarks),
-      assignment_score: Number(assignmentScore),
-      study_hours: Number(studyHours),
-      backlogs: Number(backlogs),
-      participation: Number(participation),
-      midterm_marks: Number(midtermMarks),
-      final_exam_marks: Number(finalExamMarks),
-      gpa: Number(gpa),
-    };
-
+  const fetchStudent = async () => {
     try {
-      const response = await fetch("http://127.0.0.1:8000/analyze", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
+      setError("");
 
-      if (!response.ok) throw new Error("API failed");
+      const res = await fetch(`${API}/student/${rollNo}`);
+      if (!res.ok) throw new Error("Student not found");
 
-      const result = await response.json();
+      const data = await res.json();
+      setStudent(data);
 
-      const risk = result.risk_level;
-      setRiskLevel(risk);
-      setConfidence((result.confidence * 100).toFixed(2));
-      setResult(result);
+      const p = await fetch(`${API}/placement/${rollNo}`);
+      setPlacement(await p.json());
 
-      setStudentData({
-        riskLevel: result.risk_level,
-        confidence: result.confidence,
-        gpa,
-        attendance,
-      });
-      // ✅ REAL DATA BASED CHARTS
-      const barData = [
-        { name: "Internal", value: Number(internalMarks) },
-        { name: "Assignment", value: Number(assignmentScore) },
-        { name: "Midterm", value: Number(midtermMarks) },
-        { name: "Final", value: Number(finalExamMarks) },
-      ];
-
-      const pieData = [
-        { name: "Achieved", value: Number(gpa) * 10 },
-        { name: "Remaining", value: 100 - Number(gpa) * 10 },
-      ];
-
-      const lineData = [
-        {
-          name: "Performance",
-          score:
-            (Number(internalMarks) +
-              Number(assignmentScore) +
-              Number(midtermMarks) +
-              Number(finalExamMarks)) /
-            2,
-        },
-      ];
-
-      setChartData({ barData, pieData, lineData });
     } catch (err) {
-      console.error(err);
-      setError("Backend connection failed. Make sure FastAPI is running.");
+      setError(err.message);
+      setStudent(null);
     }
   };
 
-  const riskColor =
-    riskLevel === "High Risk"
-      ? "text-red-600"
-      : riskLevel === "Moderate Risk"
-        ? "text-yellow-500"
-        : "text-green-600";
+  const runAI = async () => {
+    try {
+      setError("");
 
-  const COLORS = ["#22c55e", "#ef4444"];
+      const res = await fetch(`${API}/analyze`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ roll_no: rollNo }),
+      });
+
+      const data = await res.json();
+      setResult(data);
+
+    } catch (err) {
+      setError("AI failed");
+    }
+  };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold">
-          AI Academic Audit System - Student Analysis
-        </h1>
-        <button
-          onClick={() => navigate("/dashboard")}
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
-        >
-          Back to Dashboard
+    <div className="p-6 bg-gray-100 min-h-screen">
+
+      <h1 className="text-3xl font-bold text-center mb-6">
+        AI Academic Dashboard
+      </h1>
+
+      <div className="flex justify-center gap-3 mb-6">
+        <input
+          value={rollNo}
+          onChange={(e) => setRollNo(e.target.value)}
+          className="border p-2 rounded"
+          placeholder="Enter Roll No"
+        />
+
+        <button onClick={fetchStudent} className="bg-blue-500 text-white p-2 rounded">
+          Fetch
+        </button>
+
+        <button onClick={runAI} className="bg-green-500 text-white p-2 rounded">
+          Run AI
+        </button>
+
+        <button onClick={() => window.open(`${API}/students/report/all`)}
+          className="bg-purple-500 text-white p-2 rounded">
+          Students PDF
+        </button>
+
+        <button onClick={() => window.open(`${API}/placement/report/2025`)}
+          className="bg-red-500 text-white p-2 rounded">
+          Placement PDF
         </button>
       </div>
 
-      <h2 className="text-lg text-gray-600 mb-6">Department: {department}</h2>
+      {error && <p className="text-red-500 text-center">{error}</p>}
 
-      {/* INPUT SECTION */}
-      <div className="bg-white p-6 rounded-xl shadow-lg mb-8">
-        <h2 className="text-xl font-semibold mb-4">Run AI Analysis</h2>
+      <div className="grid grid-cols-3 gap-4">
 
-        <div className="grid grid-cols-2 gap-4">
-          <input
-            type="number"
-            placeholder="Semester (1-8)"
-            min="1"
-            max="8"
-            className="p-2 border rounded"
-            value={semester}
-            onChange={(e) => setSemester(e.target.value)}
-          />
-
-          <input
-            type="number"
-            placeholder="Attendance (%) (0 - 100)"
-            min="0"
-            max="100"
-            className="p-2 border rounded"
-            value={attendance}
-            onChange={(e) => setAttendance(e.target.value)}
-          />
-
-          <input
-            type="number"
-            placeholder="Internal Marks (0 - 30)"
-            min="0"
-            max="30"
-            className="p-2 border rounded"
-            value={internalMarks}
-            onChange={(e) => setInternalMarks(e.target.value)}
-          />
-
-          <input
-            type="number"
-            placeholder="Assignment Score (0 - 20)"
-            min="0"
-            max="20"
-            className="p-2 border rounded"
-            value={assignmentScore}
-            onChange={(e) => setAssignmentScore(e.target.value)}
-          />
-
-          <input
-            type="number"
-            placeholder="Study Hours (0 - 12)"
-            min="0"
-            max="12"
-            className="p-2 border rounded"
-            value={studyHours}
-            onChange={(e) => setStudyHours(e.target.value)}
-          />
-
-          <input
-            type="number"
-            placeholder="Backlogs (0 - 10)"
-            min="0"
-            max="10"
-            className="p-2 border rounded"
-            value={backlogs}
-            onChange={(e) => setBacklogs(e.target.value)}
-          />
-
-          <input
-            type="number"
-            placeholder="Final Exam Marks (0 - 100)"
-            min="0"
-            max="100"
-            className="p-2 border rounded"
-            value={finalExamMarks}
-            onChange={(e) => setFinalExamMarks(e.target.value)}
-          />
-
-          <input
-            type="number"
-            placeholder="GPA (0 - 10)"
-            min="0"
-            max="10"
-            step="0.1"
-            className="p-2 border rounded"
-            value={gpa}
-            onChange={(e) => setGpa(e.target.value)}
-          />
-        </div>
-
-        <button
-          onClick={runAnalysis}
-          className="mt-4 bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700"
-        >
-          Run AI Analysis
-        </button>
-
-        <button
-          onClick={() => navigate("/report")}
-          className="mt-4 ml-4 bg-green-600 text-white px-6 py-2 rounded"
-        >
-          View Audit Report
-        </button>
-
-        {error && <p className="text-red-600 mt-4">{error}</p>}
-
-        {/* ✅ PROFESSIONAL OUTPUT */}
-        {riskLevel && (
-          <div className="mt-6 p-5 bg-gray-50 rounded-xl shadow">
-            <h2 className="text-xl font-bold">🎯 AI Risk Assessment</h2>
-
-            <p className={`text-2xl font-bold ${riskColor}`}>{riskLevel}</p>
-
-            <p className="mt-2">
-              Confidence: <b>{confidence}%</b>
-            </p>
-
-            <p className="mt-3 text-gray-700">
-              {riskLevel === "High Risk" &&
-                "⚠️ High chance of failure. Immediate action required."}
-              {riskLevel === "Moderate Risk" &&
-                "⚠️ Average performance. Improvement needed."}
-              {riskLevel === "Low Risk" && "✅ Good performance. Keep it up!"}
-            </p>
+        {student && (
+          <div className="bg-white p-4 shadow rounded">
+            <h2 className="font-bold">Student</h2>
+            <p>{student.name}</p>
+            <p>Marks: {student.marks}</p>
+            <p>GPA: {student.gpa}</p>
           </div>
         )}
+
+        {placement && (
+          <div className="bg-white p-4 shadow rounded">
+            <h2 className="font-bold">Placement</h2>
+            <p>{placement.status}</p>
+            <p>{placement.company_name}</p>
+          </div>
+        )}
+
+        {result && (
+          <div className="bg-white p-4 shadow rounded">
+            <h2 className="font-bold">AI Result</h2>
+            <p>{result.risk_level}</p>
+            <p>{result.confidence}%</p>
+          </div>
+        )}
+
       </div>
 
-      {/* ✅ CHARTS */}
-      {chartData && (
-        <div className="grid grid-cols-2 gap-6">
-          {/* PIE */}
-          <div className="bg-white p-6 rounded-xl shadow">
-            <h2 className="font-semibold mb-4">Performance Split</h2>
-            <ResponsiveContainer width="100%" height={300}>
-              <PieChart>
-                <Pie data={chartData.pieData} dataKey="value">
-                  {chartData.pieData.map((_, i) => (
-                    <Cell key={i} fill={COLORS[i]} />
-                  ))}
-                </Pie>
-                <Tooltip />
-              </PieChart>
-            </ResponsiveContainer>
-          </div>
+      {student && result && (
+        <div className="grid grid-cols-2 gap-6 mt-6">
 
-          {/* BAR */}
-          <div className="bg-white p-6 rounded-xl shadow">
-            <h2 className="font-semibold mb-4">Marks Overview</h2>
-            <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={chartData.barData}>
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip />
-                <Bar dataKey="value" fill="#2563eb" />
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
+          <Bar
+            data={{
+              labels: ["Attendance", "Marks", "GPA"],
+              datasets: [{
+                label: "Performance",
+                data: [
+                  student.attendance,
+                  student.marks,
+                  student.gpa * 10
+                ],
+              }],
+            }}
+          />
 
-          {/* LINE */}
-          <div className="bg-white p-6 rounded-xl shadow col-span-2">
-            <h2 className="font-semibold mb-4">Overall Score</h2>
-            <ResponsiveContainer width="100%" height={300}>
-              <LineChart data={chartData.lineData}>
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip />
-                <Line dataKey="score" stroke="#22c55e" strokeWidth={3} />
-              </LineChart>
-            </ResponsiveContainer>
+          
+          <Pie
+            data={{
+              labels: ["Confidence", "Risk"],
+              datasets: [{
+                data: [result.confidence, 100 - result.confidence],
+              }],
+            }}
+          />
+          {result && (
+          <div className="bg-white p-4 shadow rounded mt-6">
+            <h2 className="font-bold">Performance Summary</h2>
+            <p className="text-gray-600 mt-2">
+              {result.summary}
+            </p>
           </div>
+          )}
+
         </div>
       )}
+
     </div>
   );
-};
-
-export default StudentAnalysis;
+}

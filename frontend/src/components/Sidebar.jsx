@@ -6,14 +6,14 @@ function Sidebar() {
       <h2 className="text-xl font-semibold mb-8">Admin Panel</h2>
 
       <ul className="space-y-6">
-        <li>
+        {/* <li>
           <Link
             to="/"
             className="block hover:bg-blue-800 p-2 rounded transition"
           >
             📊 Dashboard
           </Link>
-        </li>
+        </li> */}
 
         <li>
           <Link
@@ -34,11 +34,11 @@ function Sidebar() {
         </li>
 
         <li>
-          <Link
-            to="/institution"
-            className="block hover:bg-blue-800 p-2 rounded transition"
-          >
-            🏫 Institution Analysis
+          <Link 
+              to="/publications" 
+              className="block hover:bg-blue-800 p-2 rounded transition"
+              >
+               📄 Publications     
           </Link>
         </li>
 
